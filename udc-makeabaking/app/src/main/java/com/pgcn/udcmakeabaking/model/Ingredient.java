@@ -12,7 +12,7 @@ public class Ingredient implements Parcelable {
 
     @SerializedName("quantity")
     @Expose
-    private Integer quantity;
+    private String quantity;
     // TODO typedef
     @SerializedName("measure")
     @Expose
@@ -37,7 +37,7 @@ public class Ingredient implements Parcelable {
     };
 
     protected Ingredient(Parcel in) {
-        this.quantity = ((Integer) in.readValue((Integer.class.getClassLoader())));
+        this.quantity = ((String) in.readValue((Integer.class.getClassLoader())));
         this.measure = ((String) in.readValue((String.class.getClassLoader())));
         this.ingredient = ((String) in.readValue((String.class.getClassLoader())));
     }
@@ -45,15 +45,15 @@ public class Ingredient implements Parcelable {
     public Ingredient() {
     }
 
-    public Integer getQuantity() {
+    public String getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(String quantity) {
         this.quantity = quantity;
     }
 
-    public Ingredient withQuantity(Integer quantity) {
+    public Ingredient withQuantity(String quantity) {
         this.quantity = quantity;
         return this;
     }

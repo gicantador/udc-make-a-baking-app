@@ -94,6 +94,9 @@ public class BakingContentProvider extends ContentProvider {
                 long id = db.insert(TABLE_NAME, null, values);
                 if (id > 0) {
                     returnUri = ContentUris.withAppendedId(CONTENT_URI, id);
+
+                    values.put(StepContract.StepsEntry.COLUMN_BAKING_ID,id);
+
                 } else {
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 }
@@ -132,5 +135,39 @@ public class BakingContentProvider extends ContentProvider {
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
         Log.d(TAG, " update()");
         throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+
+    @Override
+    public int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values) {
+
+        final SQLiteDatabase db = mBakingDbHelper.getWritableDatabase();
+
+        switch (sUriMatcher.match(uri)) {
+
+            case BAKING:
+                db.beginTransaction();
+                int rowsInserted = 0;
+                try {
+                    for (ContentValues value : values) {
+                        long _id = db.insert(BakingContract.BakingEntry.TABLE_NAME, null, value);
+                        if (_id != -1) {
+                            rowsInserted++;
+                        }
+                    }
+                    db.setTransactionSuccessful();
+                } finally {
+                    db.endTransaction();
+                }
+
+                if (rowsInserted > 0) {
+                    getContext().getContentResolver().notifyChange(uri, null);
+                }
+                return rowsInserted;
+
+            default:
+                return super.bulkInsert(uri, values);
+
+        }
     }
 }
