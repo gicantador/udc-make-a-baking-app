@@ -74,17 +74,13 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
         public TextView mName;
 
 
-        public Ingredient mItem;
+        // --Commented out by Inspection (04/02/2018 01:04):public Ingredient mItem;
 
         public IngredientViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
-        @Override
-        public String toString() {
-            return super.toString();
-        }
 
 
     }

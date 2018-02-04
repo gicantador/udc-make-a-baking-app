@@ -15,7 +15,7 @@
         android:id="@+id/tv_ingredient_quantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingRight="3dp"
+        android:paddingStart="3dp"
         android:textAppearance="?attr/textAppearanceListItem" />
 
 
@@ -29,8 +29,8 @@
         android:id="@+id/lb_of2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="3dp"
-        android:paddingRight="3dp"
+        android:paddingStart="3dp"
+        android:paddingEnd="3dp"
         android:text="@string/lb_of"
         android:textAppearance="?attr/textAppearanceListItem" />
 

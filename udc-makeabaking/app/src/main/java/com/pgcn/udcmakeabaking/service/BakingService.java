@@ -19,7 +19,6 @@ import java.util.List;
 
 public class BakingService extends AsyncTask<Object, String, ArrayList<Baking>> {
 
-    private AsyncTaskDelegate delegate = null;
     private static final String TAG = BakingService.class.getSimpleName();
 
     /**
@@ -29,7 +28,7 @@ public class BakingService extends AsyncTask<Object, String, ArrayList<Baking>> 
      * @param responder
      */
     public BakingService(AsyncTaskDelegate responder) {
-        this.delegate = responder;
+        AsyncTaskDelegate delegate = responder;
     }
 
 

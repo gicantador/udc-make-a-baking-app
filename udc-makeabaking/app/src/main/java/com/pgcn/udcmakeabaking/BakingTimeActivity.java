@@ -32,8 +32,6 @@ public class BakingTimeActivity extends AppCompatActivity implements AsyncTaskDe
     private static final String TAG = BakingTimeActivity.class.getSimpleName();
 
     private ArrayList<Baking> mBakingArrayList;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private ReceitasAdapter mReceitasAdapter;
 
     @BindView(R.id.rv_receitas)
     RecyclerView mRecyclerViewReceitas;
@@ -56,7 +54,7 @@ public class BakingTimeActivity extends AppCompatActivity implements AsyncTaskDe
         setSupportActionBar(mToolbar);
 
 
-        mLayoutManager = new GridLayoutManager(this, numberOfColumns());
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, numberOfColumns());
 
         recuperaDados(savedInstanceState);
         try {
@@ -65,7 +63,7 @@ public class BakingTimeActivity extends AppCompatActivity implements AsyncTaskDe
             e.printStackTrace();
         }
 
-        mReceitasAdapter = new ReceitasAdapter(mBakingArrayList, this);
+        ReceitasAdapter mReceitasAdapter = new ReceitasAdapter(mBakingArrayList, this);
         mRecyclerViewReceitas.setLayoutManager(mLayoutManager);
         mRecyclerViewReceitas.setHasFixedSize(false);
         mRecyclerViewReceitas.setAdapter(mReceitasAdapter);
@@ -117,7 +115,6 @@ public class BakingTimeActivity extends AppCompatActivity implements AsyncTaskDe
     public void processFinish(Object output) {
 
         Log.d(TAG, "processFinish()");
-        Log.d(TAG, "Output " + output != null ? "not null" : "null");
 
         mBakingArrayList = (ArrayList<Baking>) output;
         if (null != mBakingArrayList && !mBakingArrayList.isEmpty()) {
@@ -146,7 +143,7 @@ public class BakingTimeActivity extends AppCompatActivity implements AsyncTaskDe
 
     }
 
-    private List<Baking> recuperaListaInterna() throws IOException {
+    private List<Baking> recuperaListaInterna() {
 
         // Load our JSON file.
         BakingJSONResourceReader reader = new BakingJSONResourceReader(getResources(), R.raw.baking);

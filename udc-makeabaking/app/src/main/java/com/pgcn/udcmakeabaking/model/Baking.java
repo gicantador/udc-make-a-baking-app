@@ -53,7 +53,7 @@ public class Baking implements Parcelable {
 
     };
 
-    protected Baking(Parcel in) {
+    private Baking(Parcel in) {
         this.id = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.name = ((String) in.readValue((String.class.getClassLoader())));
         in.readList(this.ingredients, (com.pgcn.udcmakeabaking.model.Ingredient.class.getClassLoader()));
