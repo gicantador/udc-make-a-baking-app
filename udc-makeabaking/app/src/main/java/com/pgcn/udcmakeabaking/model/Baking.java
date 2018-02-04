@@ -8,6 +8,7 @@ import com.google.gson.annotations.SerializedName;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Baking implements Parcelable {
@@ -20,16 +21,22 @@ public class Baking implements Parcelable {
     private String name;
     @SerializedName("ingredients")
     @Expose
-    private List<Ingredient> ingredients = null;
+    private ArrayList<Ingredient> ingredients;
     @SerializedName("steps")
     @Expose
-    private List<Step> steps = null;
+    private List<Step> steps;
     @SerializedName("servings")
     @Expose
     private Integer servings;
     @SerializedName("image")
     @Expose
     private String image;
+
+
+    public static final String KEY_BAKING = "KEY_BAKING";
+
+
+
     public final static Parcelable.Creator<Baking> CREATOR = new Creator<Baking>() {
 
 
@@ -84,15 +91,15 @@ public class Baking implements Parcelable {
         return this;
     }
 
-    public List<Ingredient> getIngredients() {
+    public ArrayList<Ingredient> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<Ingredient> ingredients) {
+    public void setIngredients(ArrayList<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
 
-    public Baking withIngredients(List<Ingredient> ingredients) {
+    public Baking withIngredients(ArrayList<Ingredient> ingredients) {
         this.ingredients = ingredients;
         return this;
     }

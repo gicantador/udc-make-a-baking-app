@@ -17,18 +17,18 @@ import java.util.Scanner;
 public class NetworkUtils {
     private static final String TAG = NetworkUtils.class.getSimpleName();
 
-    private static final String RECIPE_JSON_ROOT = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
+    private static final String RECIPE_JSON_ROOT = "http://go.udacity.com/android-baking-app-json";
     private final static int timeout = 20000; // 20 sec
 
 
     /**
      * Connects to the api and retrieve tje data
      *
-     * @param url
      * @return
      * @throws IOException
      */
-    public static String getResponseFromHttpUrl(URL url) throws IOException {
+    public static String getResponseFromHttpUrl() throws IOException {
+        URL url = new URL(RECIPE_JSON_ROOT);
         final String DELIMITER_PATTERN = "\\A";
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         try {

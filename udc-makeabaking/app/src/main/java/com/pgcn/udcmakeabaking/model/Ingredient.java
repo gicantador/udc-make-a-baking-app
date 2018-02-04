@@ -13,13 +13,13 @@ public class Ingredient implements Parcelable {
     @SerializedName("quantity")
     @Expose
     private String quantity;
-    // TODO typedef
     @SerializedName("measure")
     @Expose
     private String measure;
     @SerializedName("ingredient")
     @Expose
     private String ingredient;
+    public static final String KEY_INGREDIENT = "KEY_INGREDIENT";
     public final static Parcelable.Creator<Ingredient> CREATOR = new Creator<Ingredient>() {
 
 
