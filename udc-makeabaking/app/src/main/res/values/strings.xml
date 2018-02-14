@@ -4,4 +4,7 @@
     <string name="img_desc_baking_photo">Foto da receita</string>
     <string name="lb_ingredientes">Ingredientes</string>
     <string name="lb_of">of</string>
+    <string name="lb_steps">steps</string>
+
+    <string name="desc_image_space">espaco</string>
 </resources>

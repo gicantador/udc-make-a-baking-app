@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 
 import com.pgcn.udcmakeabaking.model.Baking;
 import com.pgcn.udcmakeabaking.model.Ingredient;
+import com.pgcn.udcmakeabaking.model.Step;
 import com.pgcn.udcmakeabaking.service.AsyncTaskDelegate;
 import com.pgcn.udcmakeabaking.util.BakingJSONResourceReader;
 import com.pgcn.udcmakeabaking.util.NetworkUtils;
@@ -67,10 +68,6 @@ public class BakingTimeActivity extends AppCompatActivity implements AsyncTaskDe
         mRecyclerViewReceitas.setLayoutManager(mLayoutManager);
         mRecyclerViewReceitas.setHasFixedSize(false);
         mRecyclerViewReceitas.setAdapter(mReceitasAdapter);
-
-        // montaGrid();
-        //   montaTextoAlerta();
-
 
     }
 
@@ -148,7 +145,7 @@ public class BakingTimeActivity extends AppCompatActivity implements AsyncTaskDe
         // Load our JSON file.
         BakingJSONResourceReader reader = new BakingJSONResourceReader(getResources(), R.raw.baking);
         Log.d(TAG, " reader " + reader.toString());
-        List<Baking> bakingArrayList = (List<Baking>) reader.constructUsingGson();
+        List<Baking> bakingArrayList = reader.constructUsingGson();
         if (null != bakingArrayList && !bakingArrayList.isEmpty()) {
             Log.d(TAG, " bakingArrayList size" + bakingArrayList.size());
             for (int i = 0; i < bakingArrayList.size(); i++) {
@@ -172,9 +169,12 @@ public class BakingTimeActivity extends AppCompatActivity implements AsyncTaskDe
 
         Intent intent = new Intent(this, MasterBakingDetailActivity.class);
         Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(Step.KEY_STEP, baking.getSteps());
         bundle.putParcelableArrayList(Ingredient.KEY_INGREDIENT, baking.getIngredients());
-      //  bundle.putParcelable(Baking.KEY_BAKING, baking);
-        intent.putExtras(bundle); //Put your id to your next Intent
+        Log.d(TAG, " indo no intent: " + baking.getSteps().size() + " steps");
+        Log.d(TAG, " indo no intent: " + baking.getIngredients().size()+ " ingredientes");
+
+        intent.putExtras(bundle);
         startActivity(intent);
         finish();
     }

@@ -1,22 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.pgcn.udcmakeabaking.MasterBakingDetailActivity">
-
-
-    <TextView
-        style="@style/Label"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="3dp"
-        android:text="@string/lb_ingredientes" />
-
+    tools:context="com.pgcn.udcmakeabaking.StepDetailActivity">
     <FrameLayout
-        android:id="@+id/f_mock_ingredient"
+        android:id="@+id/f_mock_stepdetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
-
 </android.support.constraint.ConstraintLayout>

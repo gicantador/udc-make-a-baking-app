@@ -1,68 +1,49 @@
 package com.pgcn.udcmakeabaking;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.pgcn.udcmakeabaking.model.Ingredient;
+import com.pgcn.udcmakeabaking.model.Step;
 
 import java.util.ArrayList;
 
 /**
- * A fragment representing a list of Ingredients.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
- * interface.
+ * Created by Giselle on 04/02/2018.
  */
-public class IngredientFragment extends Fragment {
 
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    private int mColumnCount = 3;
-    private ArrayList<Ingredient> mIngredientList;
+public class StepFragment extends Fragment implements StepAdapter.StepAdapterOnClickHandler {
+    private static final String TAG = StepFragment.class.getSimpleName();
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
-    public IngredientFragment() {
+    private ArrayList<Step> mStepList;
+
+    public StepFragment() {
     }
-
-
-//    public static IngredientFragment newInstance(int columnCount) {
-//        IngredientFragment fragment = new IngredientFragment();
-//        Bundle args = new Bundle();
-//        args.putInt(ARG_COLUMN_COUNT, columnCount);
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_ingredient_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_steps_list, container, false);
         if (null != savedInstanceState) {
-            mIngredientList = savedInstanceState.getParcelableArrayList(Ingredient.KEY_INGREDIENT);
+            mStepList = savedInstanceState.getParcelableArrayList(Step.KEY_STEP);
 
         } else {
             Bundle bundle = this.getArguments();
             if (bundle != null) {
-                mIngredientList = bundle.getParcelableArrayList(Ingredient.KEY_INGREDIENT);
+                mStepList = bundle.getParcelableArrayList(Step.KEY_STEP);
             }
 
         }
@@ -70,28 +51,43 @@ public class IngredientFragment extends Fragment {
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            recyclerView.setAdapter(new IngredientAdapter(mIngredientList));
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            recyclerView.setAdapter(new StepAdapter(mStepList, this));
         }
         return view;
 
     }
 
 
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnListFragmentInteractionListener) {
-          //  mListener = (OnListFragmentInteractionListener) context;
+            //  mListener = (OnListFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
         }
+    }
+
+    @Override
+    public void onClick(Step step, int adapterPosition) {
+        Log.d(TAG, " onClick position: " + adapterPosition);
+        Log.d(TAG, " step " + step.getShortDescription());
+
+        // clicou no step, abrir step detalhado
+        // no celular apresentar step detalhado e video
+        // na tablet lista de steps e video grande ao lado
+
+
+        Intent intent = new Intent(getActivity(), StepDetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Step.KEY_STEP, step);
+
+        bundle.putParcelableArrayList(Step.KEY_STEP_LIST, mStepList);
+
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     /**
@@ -105,7 +101,7 @@ public class IngredientFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnListFragmentInteractionListener {
-        void onListFragmentInteraction(Ingredient ingrediente);
+        void onListFragmentInteraction(Step step);
     }
 
 

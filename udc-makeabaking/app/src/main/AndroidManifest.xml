@@ -26,7 +26,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MasterBakingDetailActivity"></activity>
+        <activity android:name=".MasterBakingDetailActivity" />
+        <activity android:name=".StepDetailActivity"></activity>
     </application>
 
 </manifest>

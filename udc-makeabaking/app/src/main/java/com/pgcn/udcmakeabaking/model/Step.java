@@ -10,6 +10,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class Step implements Parcelable {
 
+    public static final String KEY_STEP = "KEY_STEP";
+    public static final String KEY_STEP_LIST = "KEY_STEP_LIST";
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -133,5 +135,6 @@ public class Step implements Parcelable {
     public int describeContents() {
         return 0;
     }
+
 
 }

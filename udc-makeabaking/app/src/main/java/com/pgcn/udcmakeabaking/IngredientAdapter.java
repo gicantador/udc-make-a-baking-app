@@ -38,7 +38,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
         Log.d(TAG, "onCreateViewHolder");
         Context context = viewGroup.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.fragment_ingredient, viewGroup, false);
+        View view = inflater.inflate(R.layout.adapter_ingredient, viewGroup, false);
 
         return new IngredientViewHolder(view);
 
@@ -47,7 +47,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
     @Override
     public void onBindViewHolder(IngredientViewHolder holder, int position) {
         if (null != mIngredientList && !mIngredientList.isEmpty()) {
-            Ingredient ingredientItem = (Ingredient) mIngredientList.get(position);
+            Ingredient ingredientItem = mIngredientList.get(position);
             if (null != ingredientItem) {
                 holder.mMeasure.setText(ingredientItem.getMeasure());
                 holder.mQuantity.setText(ingredientItem.getQuantity());

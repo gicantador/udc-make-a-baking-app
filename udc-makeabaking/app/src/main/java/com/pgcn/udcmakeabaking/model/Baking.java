@@ -9,7 +9,6 @@ import com.google.gson.annotations.SerializedName;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Baking implements Parcelable {
 
@@ -24,7 +23,7 @@ public class Baking implements Parcelable {
     private ArrayList<Ingredient> ingredients;
     @SerializedName("steps")
     @Expose
-    private List<Step> steps;
+    private ArrayList<Step> steps;
     @SerializedName("servings")
     @Expose
     private Integer servings;
@@ -104,15 +103,15 @@ public class Baking implements Parcelable {
         return this;
     }
 
-    public List<Step> getSteps() {
+    public ArrayList<Step> getSteps() {
         return steps;
     }
 
-    public void setSteps(List<Step> steps) {
+    public void setSteps(ArrayList<Step> steps) {
         this.steps = steps;
     }
 
-    public Baking withSteps(List<Step> steps) {
+    public Baking withSteps(ArrayList<Step> steps) {
         this.steps = steps;
         return this;
     }
