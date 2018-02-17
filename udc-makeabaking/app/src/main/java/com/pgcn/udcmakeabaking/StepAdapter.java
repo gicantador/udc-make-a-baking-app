@@ -56,7 +56,9 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
 
     @Override
     public int getItemCount() {
-        return mSteptList.size();
+        if (null != mSteptList)
+            return mSteptList.size();
+        else return 0;
     }
 
     public class StepViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

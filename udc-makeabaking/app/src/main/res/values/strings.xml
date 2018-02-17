@@ -7,4 +7,10 @@
     <string name="lb_steps">steps</string>
 
     <string name="desc_image_space">espaco</string>
+    <string name="pause">pause</string>
+    <string name="play">play</string>
+    <string name="restart">restart</string>
+    <string name="notification_text">notification text</string>
+    <string name="next">next step</string>
+    <string name="prev">prev step</string>
 </resources>
