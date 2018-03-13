@@ -10,16 +10,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class Ingredient implements Parcelable {
 
-    @SerializedName("quantity")
-    @Expose
-    private String quantity;
-    @SerializedName("measure")
-    @Expose
-    private String measure;
-    @SerializedName("ingredient")
-    @Expose
-    private String ingredient;
     public static final String KEY_INGREDIENT = "KEY_INGREDIENT";
+    public static final String KEY_INGREDIENT_LIST = "KEY_INGREDIENT_LIST";
     public final static Parcelable.Creator<Ingredient> CREATOR = new Creator<Ingredient>() {
 
 
@@ -35,6 +27,15 @@ public class Ingredient implements Parcelable {
         }
 
     };
+    @SerializedName("quantity")
+    @Expose
+    private String quantity;
+    @SerializedName("measure")
+    @Expose
+    private String measure;
+    @SerializedName("ingredient")
+    @Expose
+    private String ingredient;
 
     protected Ingredient(Parcel in) {
         this.quantity = ((String) in.readValue((Integer.class.getClassLoader())));

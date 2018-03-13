@@ -1,19 +1,23 @@
 package com.pgcn.udcmakeabaking;
 
-import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -34,8 +38,7 @@ import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.pgcn.udcmakeabaking.model.Step;
-
-import java.util.ArrayList;
+import com.pgcn.udcmakeabaking.util.ImageUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,26 +51,33 @@ import butterknife.ButterKnife;
  * to handle interaction events.
  */
 public class StepDetailFragment extends Fragment implements ExoPlayer.EventListener {
-
-    private SimpleExoPlayer mExoPlayer;
-    private static MediaSessionCompat mMediaSession;
-    private PlaybackStateCompat.Builder mStateBuilder;
-
-    private NotificationManager mNotificationManager;
-
     private static final String TAG = StepDetailFragment.class.getSimpleName();
-
-    private Step mStep;
-
-    private OnFragmentInteractionListener mListener;
-
+    private static MediaSessionCompat mMediaSession;
+    @BindView(R.id.bt_nextstep)
+    @Nullable
+    Button mBtNext;
+    @BindView(R.id.bt_prevstep)
+    @Nullable
+    Button mBtPrev;
+    @BindView(R.id.tv_step_order)
+    @Nullable
+    TextView mStepOrder;
     @BindView(R.id.tv_step_description)
+    @Nullable
     TextView mStepDescription;
-
+    @BindView(R.id.tv_step_smalldescription)
+    @Nullable
+    TextView mStepShortDescription;
     @BindView(R.id.vv_videoView)
+    @Nullable
     SimpleExoPlayerView mPlayerView;
-
-    private ArrayList<Step> mStepList;
+    private SimpleExoPlayer mExoPlayer;
+    private PlaybackStateCompat.Builder mStateBuilder;
+    private Step mStep;
+    private Integer mStepListSize;
+    private Integer mStepPosition;
+    private OnFragmentInteractionListener mListener;
+    private ConstraintLayout.LayoutParams paramsNotFullscreen;
 
     public StepDetailFragment() {
         // Required empty public constructor
@@ -78,41 +88,110 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
         super.onCreate(savedInstanceState);
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        Log.d(TAG, "*** onCreateView StepDetailFragment *****");
+
         View view = inflater.inflate(R.layout.fragment_step_detail, container, false);
+
         ButterKnife.bind(this, view);
 
-        // Initialize the player view.
-        //  mPlayerView = (SimpleExoPlayerView) findViewById(R.id.playerView);
-
         // Load the question mark as the background image until the user answers the question.
-        // TODO: trocar o placeholder
-        mPlayerView.setDefaultArtwork(BitmapFactory.decodeResource
-                (getResources(), R.drawable.placeholder_empty));
-        // Initialize the Media Session.
-        initializeMediaSession();
+
 
         if (null != savedInstanceState) {
             mStep = savedInstanceState.getParcelable(Step.KEY_STEP);
+            mStepListSize = savedInstanceState.getInt(Step.KEY_STEP_LIST_SIZE);
+            mStepPosition = savedInstanceState.getInt((Step.KEY_STEP_POSITION));
+
         } else {
             Bundle bundle = this.getArguments();
             if (bundle != null) {
                 mStep = bundle.getParcelable(Step.KEY_STEP);
+                mStepListSize = bundle.getInt(Step.KEY_STEP_LIST_SIZE);
+                mStepPosition = bundle.getInt(Step.KEY_STEP_POSITION);
+
             }
         }
-        if (null != mStep) {
+
+        if (null != mStepDescription) {
             mStepDescription.setText(mStep.getDescription());
-            // Initialize the player.
-            initializePlayer(Uri.parse(Uri.decode(mStep.getVideoURL())));
+            mStepShortDescription.setText(mStep.getShortDescription());
+            String text = String.format(getString(R.string.lb_step_order), mStepPosition, mStepListSize);
+            mStepOrder.setText(text);
+            iniciaBotoes();
         }
-
-      
-
+        iniciaVideo();
         return view;
 
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+    }
+
+    private void iniciaBotoes() {
+
+        Log.d(TAG, "iniciaBotoes() posicao[" + mStepPosition + "] tamanho lista[" + mStepListSize + "]");
+
+        if (mStepPosition.compareTo(mStepListSize) != (-1)) {
+            mBtNext.setVisibility(View.INVISIBLE);
+        } else
+            mBtNext.setVisibility(View.VISIBLE);
+        if (mStepPosition.equals(0)) {
+            mBtPrev.setVisibility(View.INVISIBLE);
+        } else mBtPrev.setVisibility(View.VISIBLE);
+
+
+        mBtNext.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.d(TAG, "Clique NEXT, abrir step " + (mStepPosition + 1));
+                //   releasePlayer();
+                mPlayerView.setVisibility(View.INVISIBLE);
+                //       getActivity().de
+                mListener.onFragmentInteraction(mStepPosition + 1);
+            }
+        });
+
+
+        mBtPrev.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.d(TAG, "Clique PREV, abrir step " + (mStepPosition - 1));
+                //  releasePlayer();
+                mPlayerView.setVisibility(View.INVISIBLE);
+                mListener.onFragmentInteraction(mStepPosition - 1);
+            }
+        });
+    }
+
+    private void iniciaVideo() {
+        Bitmap placeholder;
+        if (null != mStep.getThumbnailURL() && !mStep.getThumbnailURL().isEmpty()) {
+            try {
+                placeholder = ImageUtils.getBitmapFromURL(mStep.getThumbnailURL());
+            } catch (Exception e) {
+                e.printStackTrace();
+                placeholder = BitmapFactory.decodeResource(getResources(), R.drawable.placeholder);
+            }
+        } else {
+            placeholder = BitmapFactory.decodeResource(getResources(), R.drawable.placeholder);
+        }
+
+        //    if (null != mStep.getVideoURL() && !mStep.getVideoURL().isEmpty()) {
+        mPlayerView.setVisibility(View.VISIBLE);
+        mPlayerView.setDefaultArtwork(placeholder);
+        try {
+            // Initialize the Media Session.
+            initializeMediaSession();
+            // Initialize the player.
+            initializePlayer(Uri.parse(Uri.decode(mStep.getVideoURL())));
+        } catch (Exception e) {
+            Log.e(TAG, "erro ao carregar video", e);
+            //e.printStackTrace();
+        }
     }
 
     /**
@@ -150,6 +229,7 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
         mMediaSession.setActive(true);
 
     }
+
     /**
      * Initialize ExoPlayer.
      *
@@ -173,7 +253,6 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
         }
     }
 
-
     /**
      * Release ExoPlayer.
      */
@@ -189,12 +268,16 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
      */
     @Override
     public void onDestroy() {
+        Log.d(TAG, "onDestroy()");
+
         super.onDestroy();
         releasePlayer();
     }
 
     @Override
     public void onAttach(Context context) {
+        Log.d(TAG, "onAttach()");
+
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
@@ -206,6 +289,8 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
 
     @Override
     public void onDetach() {
+        Log.d(TAG, "onDetach()");
+
         super.onDetach();
         mListener = null;
     }
@@ -222,6 +307,7 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
 
     @Override
     public void onLoadingChanged(boolean isLoading) {
+        Log.d(TAG, "onLoadingChanged(boolean[ " + isLoading + "]");
 
     }
 
@@ -242,10 +328,8 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
                     mExoPlayer.getCurrentPosition(), 1f);
         }
         mMediaSession.setPlaybackState(mStateBuilder.build());
-        //showNotification(mStateBuilder.build());
 
     }
-
 
     @Override
     public void onPlayerError(ExoPlaybackException error) {
@@ -255,6 +339,60 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     @Override
     public void onPositionDiscontinuity() {
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putParcelable(Step.KEY_STEP, mStep);
+        outState.putInt(Step.KEY_STEP_LIST_SIZE, mStepListSize);
+        outState.putInt(Step.KEY_STEP_POSITION, mStepPosition);
+        super.onSaveInstanceState(outState);
+
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        void onFragmentInteraction(Uri uri);
+
+        void onFragmentInteraction(int position);
+
+        void onFragmentInteraction(Step step);
+    }
+
+    public interface OnListFragmentInteractionListener {
+    }
+
+    /**
+     * Broadcast Receiver registered to receive the MEDIA_BUTTON intent coming from clients.
+     */
+    public static class MediaReceiver extends BroadcastReceiver {
+
+        public MediaReceiver() {
+        }
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            MediaButtonReceiver.handleIntent(mMediaSession, intent);
+        }
     }
 
     /**
@@ -277,38 +415,22 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
         }
     }
 
-
-
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
-    }
-
-    public interface OnListFragmentInteractionListener {
-    }
-
-
-    /**
-     * Broadcast Receiver registered to receive the MEDIA_BUTTON intent coming from clients.
-     */
-    public static class MediaReceiver extends BroadcastReceiver {
-
-        public MediaReceiver() {
-        }
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            MediaButtonReceiver.handleIntent(mMediaSession, intent);
-        }
-    }
+//    @Override
+//    public void onConfigurationChanged(Configuration newConfig) {
+//        super.onConfigurationChanged(newConfig);
+//
+//        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) //To fullscreen
+//        {
+//            paramsNotFullscreen = (ConstraintLayout.LayoutParams) mPlayerView.getLayoutParams();
+//            ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(paramsNotFullscreen);
+//            params.setMargins(0, 0, 0, 0);
+//            params.height = ViewGroup.LayoutParams.MATCH_PARENT;
+//            params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+//            mPlayerView.setLayoutParams(params);
+//
+//        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+//            mPlayerView.setLayoutParams(paramsNotFullscreen);
+//        }
+//
+//    }
 }

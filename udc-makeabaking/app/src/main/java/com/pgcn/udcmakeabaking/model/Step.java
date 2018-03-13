@@ -12,21 +12,8 @@ public class Step implements Parcelable {
 
     public static final String KEY_STEP = "KEY_STEP";
     public static final String KEY_STEP_LIST = "KEY_STEP_LIST";
-    @SerializedName("id")
-    @Expose
-    private Integer id;
-    @SerializedName("shortDescription")
-    @Expose
-    private String shortDescription;
-    @SerializedName("description")
-    @Expose
-    private String description;
-    @SerializedName("videoURL")
-    @Expose
-    private String videoURL;
-    @SerializedName("thumbnailURL")
-    @Expose
-    private String thumbnailURL;
+    public static final String KEY_STEP_LIST_SIZE = "KEY_STEP_LIST_SIZE";
+    public static final String KEY_STEP_POSITION = "KEY_STEP_POSITION";
     public final static Parcelable.Creator<Step> CREATOR = new Creator<Step>() {
 
 
@@ -42,6 +29,21 @@ public class Step implements Parcelable {
         }
 
     };
+    @SerializedName("id")
+    @Expose
+    private Integer id;
+    @SerializedName("shortDescription")
+    @Expose
+    private String shortDescription;
+    @SerializedName("description")
+    @Expose
+    private String description;
+    @SerializedName("videoURL")
+    @Expose
+    private String videoURL;
+    @SerializedName("thumbnailURL")
+    @Expose
+    private String thumbnailURL;
 
     protected Step(Parcel in) {
         this.id = ((Integer) in.readValue((Integer.class.getClassLoader())));
@@ -121,7 +123,11 @@ public class Step implements Parcelable {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("id", id).append("shortDescription", shortDescription).append("description", description).append("videoURL", videoURL).append("thumbnailURL", thumbnailURL).toString();
+        return new ToStringBuilder(this).append("id", id)
+                .append("shortDescription", shortDescription)
+                .append("description", description)
+                .append("videoURL", videoURL)
+                .append("thumbnailURL", thumbnailURL).toString();
     }
 
     public void writeToParcel(Parcel dest, int flags) {

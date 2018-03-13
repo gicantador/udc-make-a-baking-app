@@ -9,52 +9,80 @@
         android:id="@+id/vv_videoView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:layout_marginBottom="0dp"
         android:layout_marginLeft="0dp"
-
         android:layout_marginRight="0dp"
         android:layout_marginTop="0dp"
         app:layout_constraintBottom_toTopOf="@+id/tv_step_description"
-
         />
 
     <android.support.constraint.Guideline
-        android:id="@+id/horizontalHalf"
+        android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="256dp" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="100dp" />
+
+    <TextView
+        android:id="@+id/tv_step_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textSize="20sp"
+        app:layout_constraintHorizontal_bias="0.0"
+
+        app:layout_constraintTop_toBottomOf="@+id/guideline"
+        tools:layout_editor_absoluteY="80dp" />
+
+    <TextView
+        android:id="@+id/tv_step_smalldescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textSize="22sp"
+        app:layout_constraintHorizontal_bias="0.0"
+
+        app:layout_constraintTop_toBottomOf="@+id/tv_step_order"
+        tools:layout_editor_absoluteY="80dp" />
+
 
     <TextView
         android:id="@+id/tv_step_description"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:textSize="20sp"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vv_videoView"
+
+        app:layout_constraintTop_toBottomOf="@+id/tv_step_smalldescription"
         tools:layout_editor_absoluteY="80dp" />
 
-    <Button
-        android:id="@+id/bt_prevstep"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="30dp"
-        android:contentDescription="@string/prev"
-        android:text="@string/prev"
-        app:layout_constraintTop_toBottomOf="@+id/tv_step_description" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/next"
-        app:layout_constraintStart_toEndOf="@+id/bt_prevstep"
-        app:layout_constraintTop_toBottomOf="@+id/tv_step_description" />
+    <LinearLayout
+        android:id="@+id/ll_botoes"
+        android:layout_width="match_parent"
 
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/tv_step_description">
 
+        <Button
+            android:id="@+id/bt_prevstep"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="30dp"
+            android:contentDescription="@string/prev"
+            android:text="@string/prev"
+            android:textAlignment="viewStart"
+            app:layout_constraintEnd_toStartOf="@+id/bt_nextstep" />
+
+        <Button
+            android:id="@+id/bt_nextstep"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/next"
+            android:textAlignment="viewEnd"
+            app:layout_constraintStart_toEndOf="@+id/bt_prevstep"
+            app:layout_constraintTop_toBottomOf="@+id/tv_step_description" />
+
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

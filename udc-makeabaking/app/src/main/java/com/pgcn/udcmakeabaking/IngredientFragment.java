@@ -33,15 +33,6 @@ public class IngredientFragment extends Fragment {
     public IngredientFragment() {
     }
 
-
-//    public static IngredientFragment newInstance(int columnCount) {
-//        IngredientFragment fragment = new IngredientFragment();
-//        Bundle args = new Bundle();
-//        args.putInt(ARG_COLUMN_COUNT, columnCount);
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,12 +48,12 @@ public class IngredientFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_ingredient_list, container, false);
         if (null != savedInstanceState) {
-            mIngredientList = savedInstanceState.getParcelableArrayList(Ingredient.KEY_INGREDIENT);
+            mIngredientList = savedInstanceState.getParcelableArrayList(Ingredient.KEY_INGREDIENT_LIST);
 
         } else {
             Bundle bundle = this.getArguments();
             if (bundle != null) {
-                mIngredientList = bundle.getParcelableArrayList(Ingredient.KEY_INGREDIENT);
+                mIngredientList = bundle.getParcelableArrayList(Ingredient.KEY_INGREDIENT_LIST);
             }
 
         }

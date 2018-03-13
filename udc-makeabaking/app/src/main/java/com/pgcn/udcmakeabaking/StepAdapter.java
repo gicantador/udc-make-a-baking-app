@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.pgcn.udcmakeabaking.model.Step;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +27,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
     private static final String TAG = StepAdapter.class.getSimpleName();
 
     private final List<Step> mSteptList;
-
+    private final StepAdapterOnClickHandler mClickHandler;
 
     public StepAdapter(ArrayList<Step> items, StepAdapterOnClickHandler click) {
         mSteptList = items;
@@ -48,7 +50,8 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
         if (null != mSteptList && !mSteptList.isEmpty()) {
             Step stepItem = mSteptList.get(position);
             if (null != stepItem) {
-                holder.mStepShortDescription.setText(stepItem.getShortDescription());
+                holder.mStepShortDescription.setText((position + 1) + ")" + StringUtils.SPACE + stepItem
+                        .getShortDescription());
             }
         }
 
@@ -59,6 +62,10 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
         if (null != mSteptList)
             return mSteptList.size();
         else return 0;
+    }
+
+    public interface StepAdapterOnClickHandler {
+        void onClick(Step step, int adapterPosition);
     }
 
     public class StepViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -84,11 +91,5 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
                 mClickHandler.onClick(stepSelected, adapterPosition);
             }
         }
-    }
-
-    private final StepAdapterOnClickHandler mClickHandler;
-
-    public interface StepAdapterOnClickHandler {
-        void onClick(Step step, int adapterPosition);
     }
 }

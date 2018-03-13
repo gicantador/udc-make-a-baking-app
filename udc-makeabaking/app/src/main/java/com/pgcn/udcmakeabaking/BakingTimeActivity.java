@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
@@ -19,6 +18,7 @@ import com.pgcn.udcmakeabaking.model.Ingredient;
 import com.pgcn.udcmakeabaking.model.Step;
 import com.pgcn.udcmakeabaking.service.AsyncTaskDelegate;
 import com.pgcn.udcmakeabaking.util.BakingJSONResourceReader;
+import com.pgcn.udcmakeabaking.util.BakingUtils;
 import com.pgcn.udcmakeabaking.util.NetworkUtils;
 
 import java.io.IOException;
@@ -31,17 +31,14 @@ import butterknife.ButterKnife;
 public class BakingTimeActivity extends AppCompatActivity implements AsyncTaskDelegate,
         ReceitasAdapter.ReceitasAdapterOnClickHandler {
     private static final String TAG = BakingTimeActivity.class.getSimpleName();
-
-    private ArrayList<Baking> mBakingArrayList;
-
     @BindView(R.id.rv_receitas)
     RecyclerView mRecyclerViewReceitas;
-
     @BindView(R.id.pb_loading_indicator)
     ProgressBar mProgressBar;
+    private ArrayList<Baking> mBakingArrayList;
 
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
+    //  @BindView(R.id.toolbar)
+    //   Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,18 +49,21 @@ public class BakingTimeActivity extends AppCompatActivity implements AsyncTaskDe
         setContentView(R.layout.baking_time_activity_main);
         ButterKnife.bind(this);
 
-        setSupportActionBar(mToolbar);
+        //    setSupportActionBar(mToolbar);
 
 
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, numberOfColumns());
-
-        recuperaDados(savedInstanceState);
-        try {
-            recuperaListaReceitas();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (null != savedInstanceState) {
+            mBakingArrayList = savedInstanceState.getParcelableArrayList(Baking.KEY_BAKING);
+        }
+        if (null == mBakingArrayList || mBakingArrayList.isEmpty()) {
+            try {
+                recuperaListaReceitas();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, numberOfColumns());
         ReceitasAdapter mReceitasAdapter = new ReceitasAdapter(mBakingArrayList, this);
         mRecyclerViewReceitas.setLayoutManager(mLayoutManager);
         mRecyclerViewReceitas.setHasFixedSize(false);
@@ -71,9 +71,6 @@ public class BakingTimeActivity extends AppCompatActivity implements AsyncTaskDe
 
     }
 
-    private void recuperaDados(Bundle savedInstanceState) {
-        //TODO implementar savestatte
-    }
 
     private int numberOfColumns() {
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -123,13 +120,9 @@ public class BakingTimeActivity extends AppCompatActivity implements AsyncTaskDe
     }
 
     private void recuperaListaReceitas() throws IOException {
-        boolean isOnline = NetworkUtils.isOnline((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE));
 
-        ///     if (!isOnline) {
+        boolean isOnline = NetworkUtils.isOnline((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE));
         mBakingArrayList = (ArrayList<Baking>) recuperaListaInterna();
-        ///  } else {
-        //       new BakingService(this).execute();
-        //  }
 
     }
 
@@ -168,14 +161,22 @@ public class BakingTimeActivity extends AppCompatActivity implements AsyncTaskDe
 
 
         Intent intent = new Intent(this, MasterBakingDetailActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList(Step.KEY_STEP, baking.getSteps());
-        bundle.putParcelableArrayList(Ingredient.KEY_INGREDIENT, baking.getIngredients());
+        bundle.putParcelableArrayList(Step.KEY_STEP_LIST, BakingUtils.ordenaStepsPorId(baking
+                .getSteps()));
+        bundle.putParcelableArrayList(Ingredient.KEY_INGREDIENT_LIST, baking.getIngredients());
         Log.d(TAG, " indo no intent: " + baking.getSteps().size() + " steps");
         Log.d(TAG, " indo no intent: " + baking.getIngredients().size()+ " ingredientes");
 
         intent.putExtras(bundle);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putParcelableArrayList(Baking.KEY_BAKING, mBakingArrayList);
+        super.onSaveInstanceState(outState);
     }
 }

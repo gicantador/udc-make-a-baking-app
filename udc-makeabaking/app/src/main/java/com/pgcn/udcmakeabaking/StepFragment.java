@@ -38,12 +38,12 @@ public class StepFragment extends Fragment implements StepAdapter.StepAdapterOnC
 
         View view = inflater.inflate(R.layout.fragment_steps_list, container, false);
         if (null != savedInstanceState) {
-            mStepList = savedInstanceState.getParcelableArrayList(Step.KEY_STEP);
+            mStepList = savedInstanceState.getParcelableArrayList(Step.KEY_STEP_LIST);
 
         } else {
             Bundle bundle = this.getArguments();
             if (bundle != null) {
-                mStepList = bundle.getParcelableArrayList(Step.KEY_STEP);
+                mStepList = bundle.getParcelableArrayList(Step.KEY_STEP_LIST);
             }
 
         }
@@ -82,9 +82,10 @@ public class StepFragment extends Fragment implements StepAdapter.StepAdapterOnC
 
         Intent intent = new Intent(getActivity(), StepDetailActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putParcelable(Step.KEY_STEP, step);
 
+        bundle.putParcelable(Step.KEY_STEP, step);
         bundle.putParcelableArrayList(Step.KEY_STEP_LIST, mStepList);
+        bundle.putInt(Step.KEY_STEP_POSITION, adapterPosition);
 
         intent.putExtras(bundle);
         startActivity(intent);

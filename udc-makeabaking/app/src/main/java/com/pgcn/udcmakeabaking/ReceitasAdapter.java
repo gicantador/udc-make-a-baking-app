@@ -53,7 +53,10 @@ public class ReceitasAdapter extends RecyclerView.Adapter<ReceitasAdapter.Receit
             String imagePath = baking.getImage();
             if (imagePath != null && !imagePath.isEmpty()) {
                 Picasso.with(holder.bakingImage.getContext()).load(imagePath).placeholder(R
-                        .drawable.placeholder_empty).into(holder.bakingImage);
+                        .drawable.placeholder).into(holder.bakingImage);
+            } else {
+                Picasso.with(holder.bakingImage.getContext()).load(R.drawable.placeholder).placeholder(R
+                        .drawable.placeholder).into(holder.bakingImage);
             }
         }
     }
