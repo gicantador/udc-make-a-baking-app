@@ -10,32 +10,12 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.ArrayList;
 
+
 public class Baking implements Parcelable {
 
-    @SerializedName("id")
-    @Expose
-    private Integer id;
-    @SerializedName("name")
-    @Expose
-    private String name;
-    @SerializedName("ingredients")
-    @Expose
-    private ArrayList<Ingredient> ingredients;
-    @SerializedName("steps")
-    @Expose
-    private ArrayList<Step> steps;
-    @SerializedName("servings")
-    @Expose
-    private Integer servings;
-    @SerializedName("image")
-    @Expose
-    private String image;
-
-
     public static final String KEY_BAKING = "KEY_BAKING";
-
-
-
+    public static final String KEY_BAKING_NAME = "KEY_BAKING_NAME";
+    public static final String KEY_BAKING_IMAGE = "KEY_BAKING_IMAGE";
     public final static Parcelable.Creator<Baking> CREATOR = new Creator<Baking>() {
 
 
@@ -51,10 +31,31 @@ public class Baking implements Parcelable {
         }
 
     };
+    @SerializedName("id")
+    @Expose
+    private Integer id;
+    @SerializedName("name")
+    @Expose
+    private String name;
+    @SerializedName("ingredients")
+    @Expose
+    private ArrayList<Ingredient> ingredients;
+''
+    @SerializedName("steps")
+    @Expose
+    private ArrayList<Step> steps;
+    @SerializedName("servings")
+    @Expose
+    private Integer servings;
+    @SerializedName("image")
+    @Expose
+    private String image;
 
     private Baking(Parcel in) {
         this.id = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.name = ((String) in.readValue((String.class.getClassLoader())));
+        this.ingredients = new ArrayList<Ingredient>();
+        this.steps = new ArrayList<Step>();
         in.readList(this.ingredients, (com.pgcn.udcmakeabaking.model.Ingredient.class.getClassLoader()));
         in.readList(this.steps, (com.pgcn.udcmakeabaking.model.Step.class.getClassLoader()));
         this.servings = ((Integer) in.readValue((Integer.class.getClassLoader())));

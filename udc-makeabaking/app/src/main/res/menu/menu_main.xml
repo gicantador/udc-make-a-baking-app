@@ -7,4 +7,18 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />
+
+
+    <item
+        android:id="@+id/action_saveforwidget"
+        android:orderInCategory="200"
+        android:title="@string/desc_add_widget"
+        app:showAsAction="ifRoom" />
+
+
+    <item
+        android:id="@+id/action_showPreferences"
+        android:orderInCategory="300"
+        android:title="@string/desc_swap_button"
+        app:showAsAction="ifRoom" />
 </menu>

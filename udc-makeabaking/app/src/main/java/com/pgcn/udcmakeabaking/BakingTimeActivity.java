@@ -9,8 +9,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.ProgressBar;
 
 import com.pgcn.udcmakeabaking.model.Baking;
@@ -37,19 +35,16 @@ public class BakingTimeActivity extends AppCompatActivity implements AsyncTaskDe
     ProgressBar mProgressBar;
     private ArrayList<Baking> mBakingArrayList;
 
-    //  @BindView(R.id.toolbar)
-    //   Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         Log.d(TAG, "onCreate");
 
         setContentView(R.layout.baking_time_activity_main);
         ButterKnife.bind(this);
-
-        //    setSupportActionBar(mToolbar);
 
 
         if (null != savedInstanceState) {
@@ -83,27 +78,6 @@ public class BakingTimeActivity extends AppCompatActivity implements AsyncTaskDe
         return nColumns;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void processFinish(Object output) {
@@ -122,6 +96,9 @@ public class BakingTimeActivity extends AppCompatActivity implements AsyncTaskDe
     private void recuperaListaReceitas() throws IOException {
 
         boolean isOnline = NetworkUtils.isOnline((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE));
+        if (isOnline) {
+
+        }
         mBakingArrayList = (ArrayList<Baking>) recuperaListaInterna();
 
     }
@@ -163,6 +140,7 @@ public class BakingTimeActivity extends AppCompatActivity implements AsyncTaskDe
         Intent intent = new Intent(this, MasterBakingDetailActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         Bundle bundle = new Bundle();
+        bundle.putParcelable(Baking.KEY_BAKING, baking);
         bundle.putParcelableArrayList(Step.KEY_STEP_LIST, BakingUtils.ordenaStepsPorId(baking
                 .getSteps()));
         bundle.putParcelableArrayList(Ingredient.KEY_INGREDIENT_LIST, baking.getIngredients());

@@ -49,6 +49,10 @@ public class ReceitasAdapter extends RecyclerView.Adapter<ReceitasAdapter.Receit
         if (baking != null) {
             Log.d(TAG, "receita: " + baking.getName());
             holder.bakingName.setText(baking.getName());
+
+            Log.d(TAG, "servings: " + baking.getServings());
+            holder.servings.setText(String.valueOf(baking.getServings()));
+
             Log.d(TAG, "imagem: " + baking.getImage());
             String imagePath = baking.getImage();
             if (imagePath != null && !imagePath.isEmpty()) {
@@ -85,8 +89,12 @@ public class ReceitasAdapter extends RecyclerView.Adapter<ReceitasAdapter.Receit
         @BindView(R.id.iv_baking_img)
         ImageView bakingImage;
 
+        @BindView(R.id.tv_servings)
+        TextView servings;
+
         @BindView(R.id.tv_baking_title)
         TextView bakingName;
+
 
         public ReceitasViewHolder(View itemView) {
             super(itemView);
