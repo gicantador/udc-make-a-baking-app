@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Make A Baking</string>
+    <string name="action_settings">Configuração</string>
+    <string name="img_desc_baking_photo">Foto da receita</string>
+    <string name="lb_ingredientes">Ingredientes</string>
+    <string name="lb_of">" de "</string>
+    <string name="lb_steps">passos</string>
+    <string name="desc_image_space">espaco</string>
+    <string name="pause">pausar</string>
+    <string name="play">executar</string>
+    <string name="restart">começar novamente</string>
+    <string name="notification_text">texto de notificação</string>
+    <string name="next">próx passo</string>
+    <string name="prev">passo anterior</string>
+    <string name="lb_step_order">Passo %1$d de %2$d.</string>
+    <string name="appwidget_text">EXEMPLO</string>
+    <string name="add_widget">Colocar no widget</string>
+    <string name="appwidget_cd_baking_image">Foto da receita</string>
+    <string name="desc_swap_button">Trocar receita selecionada</string>
+    <string name="lb_servings">Pratos</string>
+    <string name="desc_add_widget">Colocar no widget</string>
+    <string name="exo_bt_prev">Anterior</string>
+    <string name="exo_bt_play">Executar</string>
+    <string name="exo_bt_pause">Pausar</string>
+</resources>

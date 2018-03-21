@@ -19,15 +19,15 @@
 
             <ImageButton android:id="@id/exo_prev"
                 style="@style/ExoMediaButton.Previous"
-                android:contentDescription="TODO" />
+                android:contentDescription="@string/exo_bt_prev" />
 
             <ImageButton android:id="@id/exo_play"
                 style="@style/ExoMediaButton.Play"
-                android:contentDescription="TODO" />
+                android:contentDescription="@string/exo_bt_play" />
 
             <ImageButton android:id="@id/exo_pause"
                 style="@style/ExoMediaButton.Pause"
-                android:contentDescription="TODO" />
+                android:contentDescription="@string/exo_bt_pause" />
 
         </LinearLayout>
 

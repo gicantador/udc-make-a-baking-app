@@ -19,7 +19,6 @@ import com.pgcn.udcmakeabaking.util.BakingJSONResourceReader;
 import com.pgcn.udcmakeabaking.util.BakingUtils;
 import com.pgcn.udcmakeabaking.util.NetworkUtils;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,11 +50,7 @@ public class BakingTimeActivity extends AppCompatActivity implements AsyncTaskDe
             mBakingArrayList = savedInstanceState.getParcelableArrayList(Baking.KEY_BAKING);
         }
         if (null == mBakingArrayList || mBakingArrayList.isEmpty()) {
-            try {
-                recuperaListaReceitas();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            recuperaListaReceitas();
         }
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, numberOfColumns());
@@ -93,7 +88,7 @@ public class BakingTimeActivity extends AppCompatActivity implements AsyncTaskDe
 
     }
 
-    private void recuperaListaReceitas() throws IOException {
+    private void recuperaListaReceitas() {
 
         boolean isOnline = NetworkUtils.isOnline((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE));
         if (isOnline) {

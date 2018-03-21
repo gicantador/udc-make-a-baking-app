@@ -24,7 +24,7 @@ import java.util.TreeSet;
  */
 
 public class BakingIntentService extends IntentService {
-    public static final String ACTION_UPDATE_BAKING_WIDGETS = "com.pgcn.udcmakeabaking.action.update_baking_widgets";
+    private static final String ACTION_UPDATE_BAKING_WIDGETS = "com.pgcn.udcmakeabaking.action.update_baking_widgets";
     private static final String TAG = BakingIntentService.class.getSimpleName();
 
     public BakingIntentService() {

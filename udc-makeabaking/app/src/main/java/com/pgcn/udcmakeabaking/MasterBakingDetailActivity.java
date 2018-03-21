@@ -25,9 +25,9 @@ import java.util.TreeSet;
 public class MasterBakingDetailActivity extends AppCompatActivity implements IngredientFragment.OnListFragmentInteractionListener, StepFragment.OnListFragmentInteractionListener {
 
     private static final String TAG = MasterBakingDetailActivity.class.getSimpleName();
-    ArrayList<Step> mStepList;
-    ArrayList<Ingredient> mIngredientList;
-    Baking mBaking;
+    private ArrayList<Step> mStepList;
+    private ArrayList<Ingredient> mIngredientList;
+    private Baking mBaking;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

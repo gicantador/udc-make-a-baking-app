@@ -61,7 +61,7 @@ public class BakingAppWidgetProvider extends AppWidgetProvider {
 
         StringBuilder lista = new StringBuilder();
         for (String ingredient : listaTextoIngredientes) {
-            lista.append(ingredient + StringUtils.CR + StringUtils.LF);
+            lista.append(ingredient).append(StringUtils.CR).append(StringUtils.LF);
         }
         views.setTextViewText(R.id.appwidget_listaingredientes, lista.toString());
 

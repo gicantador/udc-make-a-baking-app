@@ -35,8 +35,7 @@ public class ImageUtils {
         connection.setDoInput(true);
         connection.connect();
         InputStream input = connection.getInputStream();
-        Bitmap myBitmap = BitmapFactory.decodeStream(input);
-        return myBitmap;
+        return BitmapFactory.decodeStream(input);
 
     }
 }
