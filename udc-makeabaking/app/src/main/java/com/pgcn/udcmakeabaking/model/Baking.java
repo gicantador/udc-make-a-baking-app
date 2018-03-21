@@ -31,6 +31,7 @@ public class Baking implements Parcelable {
         }
 
     };
+    public static final String PREFERENCE_NAME = "BAKING_APP";
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -40,7 +41,7 @@ public class Baking implements Parcelable {
     @SerializedName("ingredients")
     @Expose
     private ArrayList<Ingredient> ingredients;
-''
+
     @SerializedName("steps")
     @Expose
     private ArrayList<Step> steps;

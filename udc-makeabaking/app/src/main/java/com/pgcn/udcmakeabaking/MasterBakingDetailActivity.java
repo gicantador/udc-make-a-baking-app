@@ -74,7 +74,7 @@ public class MasterBakingDetailActivity extends AppCompatActivity implements Ing
         new Prefs.Builder()
                 .setContext(this)
                 .setMode(ContextWrapper.MODE_PRIVATE)
-                .setPrefsName(getPackageName())
+                .setPrefsName(Baking.PREFERENCE_NAME)
                 .setUseDefaultSharedPreference(true)
                 .build();
 

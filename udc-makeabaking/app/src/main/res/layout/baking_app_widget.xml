@@ -11,17 +11,15 @@
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
         android:padding="3dp"
-        android:text="@string/app_name" />
+        android:text="@string/app_name"
+        android:textSize="20sp" />
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/desc_swap_button"
-        android:src="@drawable/swap" />
-
-    <ListView
-        android:id="@+id/appwidget_lv_ingredient"
+    <TextView
+        android:id="@+id/appwidget_listaingredientes"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:paddingStart="3dp"
+        android:textSize="12sp" />
+
 
 </LinearLayout>
