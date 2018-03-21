@@ -9,19 +9,7 @@
         android:baselineAligned="false"
         android:orientation="vertical">
 
-        <android.support.design.widget.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-        </android.support.design.widget.AppBarLayout>
 
 
         <TextView
@@ -42,7 +30,7 @@
             android:background="@color/cardview_light_background"
             android:text="@string/lb_ingredientes" />
 
-        <ScrollView
+        <ScrollView android:scrollbarFadeDuration="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1">
@@ -64,7 +52,7 @@
             android:text="@string/lb_steps" />
 
 
-        <ScrollView
+        <ScrollView android:scrollbarFadeDuration="1"
             android:layout_width="match_parent"
             android:layout_height="500dp"
             android:layout_weight="2">
