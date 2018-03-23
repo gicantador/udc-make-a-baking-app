@@ -8,25 +8,14 @@ import com.google.gson.annotations.SerializedName;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import paperparcel.PaperParcel;
+
+@PaperParcel
 public class Ingredient implements Parcelable {
 
     public static final String KEY_INGREDIENT = "KEY_INGREDIENT";
     public static final String KEY_INGREDIENT_LIST = "KEY_INGREDIENT_LIST";
-    public final static Parcelable.Creator<Ingredient> CREATOR = new Creator<Ingredient>() {
 
-
-        @SuppressWarnings({
-                "unchecked"
-        })
-        public Ingredient createFromParcel(Parcel in) {
-            return new Ingredient(in);
-        }
-
-        public Ingredient[] newArray(int size) {
-            return (new Ingredient[size]);
-        }
-
-    };
     @SerializedName("quantity")
     @Expose
     private String quantity;
@@ -46,44 +35,18 @@ public class Ingredient implements Parcelable {
     public Ingredient() {
     }
 
-    public String getQuantity() {
-        return quantity;
-    }
 
-    public void setQuantity(String quantity) {
-        this.quantity = quantity;
-    }
+    public static final Creator<Ingredient> CREATOR = new Creator<Ingredient>() {
+        @Override
+        public Ingredient createFromParcel(Parcel in) {
+            return new Ingredient(in);
+        }
 
-    public Ingredient withQuantity(String quantity) {
-        this.quantity = quantity;
-        return this;
-    }
-
-    public String getMeasure() {
-        return measure;
-    }
-
-    public void setMeasure(String measure) {
-        this.measure = measure;
-    }
-
-    public Ingredient withMeasure(String measure) {
-        this.measure = measure;
-        return this;
-    }
-
-    public String getIngredient() {
-        return ingredient;
-    }
-
-    public void setIngredient(String ingredient) {
-        this.ingredient = ingredient;
-    }
-
-    public Ingredient withIngredient(String ingredient) {
-        this.ingredient = ingredient;
-        return this;
-    }
+        @Override
+        public Ingredient[] newArray(int size) {
+            return new Ingredient[size];
+        }
+    };
 
     @Override
     public String toString() {

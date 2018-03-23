@@ -8,26 +8,26 @@ import com.google.gson.annotations.SerializedName;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import paperparcel.PaperParcel;
+
+@PaperParcel
 public class Step implements Parcelable {
 
     public static final String KEY_STEP = "KEY_STEP";
     public static final String KEY_STEP_LIST = "KEY_STEP_LIST";
     public static final String KEY_STEP_LIST_SIZE = "KEY_STEP_LIST_SIZE";
     public static final String KEY_STEP_POSITION = "KEY_STEP_POSITION";
-    public final static Parcelable.Creator<Step> CREATOR = new Creator<Step>() {
 
-
-        @SuppressWarnings({
-                "unchecked"
-        })
+    public static final Creator<Step> CREATOR = new Creator<Step>() {
+        @Override
         public Step createFromParcel(Parcel in) {
             return new Step(in);
         }
 
+        @Override
         public Step[] newArray(int size) {
-            return (new Step[size]);
+            return new Step[size];
         }
-
     };
     @SerializedName("id")
     @Expose
@@ -53,72 +53,8 @@ public class Step implements Parcelable {
         this.thumbnailURL = ((String) in.readValue((String.class.getClassLoader())));
     }
 
+
     public Step() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Step withId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getShortDescription() {
-        return shortDescription;
-    }
-
-    public void setShortDescription(String shortDescription) {
-        this.shortDescription = shortDescription;
-    }
-
-    public Step withShortDescription(String shortDescription) {
-        this.shortDescription = shortDescription;
-        return this;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Step withDescription(String description) {
-        this.description = description;
-        return this;
-    }
-
-    public String getVideoURL() {
-        return videoURL;
-    }
-
-    public void setVideoURL(String videoURL) {
-        this.videoURL = videoURL;
-    }
-
-    public Step withVideoURL(String videoURL) {
-        this.videoURL = videoURL;
-        return this;
-    }
-
-    public String getThumbnailURL() {
-        return thumbnailURL;
-    }
-
-    public void setThumbnailURL(String thumbnailURL) {
-        this.thumbnailURL = thumbnailURL;
-    }
-
-    public Step withThumbnailURL(String thumbnailURL) {
-        this.thumbnailURL = thumbnailURL;
-        return this;
     }
 
     @Override
