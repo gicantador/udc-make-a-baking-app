@@ -15,12 +15,12 @@ import com.pgcn.udcmakeabaking.model.Baking;
 import com.pgcn.udcmakeabaking.model.Ingredient;
 import com.pgcn.udcmakeabaking.model.Step;
 import com.pgcn.udcmakeabaking.service.AsyncTaskDelegate;
+import com.pgcn.udcmakeabaking.service.BakingService;
 import com.pgcn.udcmakeabaking.util.BakingJSONResourceReader;
 import com.pgcn.udcmakeabaking.util.BakingUtils;
 import com.pgcn.udcmakeabaking.util.NetworkUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,7 +34,6 @@ public class BakingTimeActivity extends AppCompatActivity implements AsyncTaskDe
     ProgressBar mProgressBar;
     private ArrayList<Baking> mBakingArrayList;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +43,6 @@ public class BakingTimeActivity extends AppCompatActivity implements AsyncTaskDe
 
         setContentView(R.layout.baking_time_activity_main);
         ButterKnife.bind(this);
-
 
         if (null != savedInstanceState) {
             mBakingArrayList = savedInstanceState.getParcelableArrayList(Baking.KEY_BAKING);
@@ -74,27 +72,40 @@ public class BakingTimeActivity extends AppCompatActivity implements AsyncTaskDe
     }
 
 
+    private void recuperaListaReceitas() {
+        Log.d(TAG, " recuperaListaReceitas() ");
+
+        boolean isOnline = NetworkUtils.isOnline((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE));
+        if (isOnline) {
+            loadBakings();
+        } else {
+            mBakingArrayList = (ArrayList<Baking>) recuperaListaInterna();
+        }
+    }
+
+    public void loadBakings() {
+
+        Log.d(TAG, " loadBakings() ");
+
+        new BakingService(this).execute();
+
+
+    }
+
     @Override
     public void processFinish(Object output) {
 
         Log.d(TAG, "processFinish()");
 
         mBakingArrayList = (ArrayList<Baking>) output;
-        if (null != mBakingArrayList && !mBakingArrayList.isEmpty()) {
-            for (int i = 0; i < mBakingArrayList.size(); i++) {
-                Log.d(TAG, " bakingArrayList " + mBakingArrayList);
-            }
-        }
 
-    }
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, numberOfColumns());
 
-    private void recuperaListaReceitas() {
+        ReceitasAdapter mReceitasAdapter = new ReceitasAdapter(mBakingArrayList, this);
+        mRecyclerViewReceitas.setLayoutManager(mLayoutManager);
+        mRecyclerViewReceitas.setHasFixedSize(false);
+        mRecyclerViewReceitas.setAdapter(mReceitasAdapter);
 
-        boolean isOnline = NetworkUtils.isOnline((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE));
-        if (isOnline) {
-
-        }
-        mBakingArrayList = (ArrayList<Baking>) recuperaListaInterna();
 
     }
 
@@ -105,12 +116,15 @@ public class BakingTimeActivity extends AppCompatActivity implements AsyncTaskDe
 
     }
 
-    private List<Baking> recuperaListaInterna() {
+    private ArrayList<Baking> recuperaListaInterna() {
+
+        Log.d(TAG, " recuperaListaInterna() ");
+
 
         // Load our JSON file.
         BakingJSONResourceReader reader = new BakingJSONResourceReader(getResources(), R.raw.baking);
         Log.d(TAG, " reader " + reader.toString());
-        List<Baking> bakingArrayList = reader.constructUsingGson();
+        ArrayList<Baking> bakingArrayList = reader.constructUsingGson();
         if (null != bakingArrayList && !bakingArrayList.isEmpty()) {
             Log.d(TAG, " bakingArrayList size" + bakingArrayList.size());
             for (int i = 0; i < bakingArrayList.size(); i++) {
@@ -136,8 +150,7 @@ public class BakingTimeActivity extends AppCompatActivity implements AsyncTaskDe
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         Bundle bundle = new Bundle();
         bundle.putParcelable(Baking.KEY_BAKING, baking);
-        bundle.putParcelableArrayList(Step.KEY_STEP_LIST, BakingUtils.ordenaStepsPorId(baking
-                .getSteps()));
+        bundle.putParcelableArrayList(Step.KEY_STEP_LIST, BakingUtils.ordenaStepsPorId(baking.getSteps()));
         bundle.putParcelableArrayList(Ingredient.KEY_INGREDIENT_LIST, baking.getIngredients());
         Log.d(TAG, " indo no intent: " + baking.getSteps().size() + " steps");
         Log.d(TAG, " indo no intent: " + baking.getIngredients().size()+ " ingredientes");
