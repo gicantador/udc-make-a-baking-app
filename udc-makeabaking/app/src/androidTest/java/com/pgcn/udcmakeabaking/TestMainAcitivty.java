@@ -34,4 +34,6 @@ public class TestMainAcitivty {
 
         onView(withId(R.id.tv_baking_title)).check(matches((isDisplayed())));
     }
+
+
 }

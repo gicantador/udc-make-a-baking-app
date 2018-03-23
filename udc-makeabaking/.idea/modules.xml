@@ -3,9 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\dev\udacity\android-nndg\projetos\receitas\branches\udc-make-a-baking-app\udc-makeabaking\app\app.iml" filepath="C:\dev\udacity\android-nndg\projetos\receitas\branches\udc-make-a-baking-app\udc-makeabaking\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/udc-makeabaking.iml" filepath="$PROJECT_DIR$/udc-makeabaking.iml" />
-      <module fileurl="file://C:\dev\udacity\android-nndg\projetos\receitas\branches\udc-make-a-baking-app\udc-makeabaking\udc-makeabaking.iml" filepath="C:\dev\udacity\android-nndg\projetos\receitas\branches\udc-make-a-baking-app\udc-makeabaking\udc-makeabaking.iml" />
     </modules>
   </component>
 </project>
