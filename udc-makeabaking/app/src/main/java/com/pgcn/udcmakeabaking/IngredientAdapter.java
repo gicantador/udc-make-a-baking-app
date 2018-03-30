@@ -2,7 +2,6 @@ package com.pgcn.udcmakeabaking;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +34,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
     @Override
     public IngredientViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 
-        Log.d(TAG, "onCreateViewHolder");
+        //    Log.d(TAG, "onCreateViewHolder");
         Context context = viewGroup.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.adapter_ingredient, viewGroup, false);

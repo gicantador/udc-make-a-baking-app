@@ -1,5 +1,6 @@
 package com.pgcn.udcmakeabaking;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.pgcn.udcmakeabaking.model.Step;
+import com.pgcn.udcmakeabaking.util.LayoutUtil;
 
 import java.util.ArrayList;
 
@@ -21,6 +23,8 @@ import java.util.ArrayList;
 
 public class StepFragment extends Fragment implements StepAdapter.StepAdapterOnClickHandler {
     private static final String TAG = StepFragment.class.getSimpleName();
+
+    private OnSelectStepFragmentInteractionListener mListener;
 
     private ArrayList<Step> mStepList;
 
@@ -62,11 +66,11 @@ public class StepFragment extends Fragment implements StepAdapter.StepAdapterOnC
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener) {
-            //  mListener = (OnListFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
+        Activity activity = getActivity();
+        try {
+            mListener = (OnSelectStepFragmentInteractionListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement OnArticleSelectedListener");
         }
     }
 
@@ -79,17 +83,24 @@ public class StepFragment extends Fragment implements StepAdapter.StepAdapterOnC
         // no celular apresentar step detalhado e video
         // na tablet lista de steps e video grande ao lado
 
+        if (LayoutUtil.isTablet(getContext())) {
+            Log.d(TAG, " isTablet ");
 
-        Intent intent = new Intent(getActivity(), StepDetailActivity.class);
-        Bundle bundle = new Bundle();
+            mListener.onSelectStep(step, adapterPosition);
+        } else {
+            Log.d(TAG, "not isTablet ");
+            Intent intent = new Intent(getActivity(), StepDetailActivity.class);
+            Bundle bundle = new Bundle();
 
-        bundle.putParcelable(Step.KEY_STEP, step);
-        bundle.putParcelableArrayList(Step.KEY_STEP_LIST, mStepList);
-        bundle.putInt(Step.KEY_STEP_POSITION, adapterPosition);
+            bundle.putParcelable(Step.KEY_STEP, step);
+            bundle.putParcelableArrayList(Step.KEY_STEP_LIST, mStepList);
+            bundle.putInt(Step.KEY_STEP_POSITION, adapterPosition);
 
-        intent.putExtras(bundle);
-        startActivity(intent);
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }
     }
+
 
     /**
      * This interface must be implemented by activities that contain this
@@ -101,9 +112,9 @@ public class StepFragment extends Fragment implements StepAdapter.StepAdapterOnC
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnListFragmentInteractionListener {
-        void onListFragmentInteraction(Step step);
-    }
 
+    public interface OnSelectStepFragmentInteractionListener {
+        void onSelectStep(Step step, int adapterPosition);
+    }
 
 }

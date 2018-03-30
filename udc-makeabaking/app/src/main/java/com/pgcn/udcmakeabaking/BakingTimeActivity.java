@@ -18,6 +18,7 @@ import com.pgcn.udcmakeabaking.service.AsyncTaskDelegate;
 import com.pgcn.udcmakeabaking.service.BakingService;
 import com.pgcn.udcmakeabaking.util.BakingJSONResourceReader;
 import com.pgcn.udcmakeabaking.util.BakingUtils;
+import com.pgcn.udcmakeabaking.util.LayoutUtil;
 import com.pgcn.udcmakeabaking.util.NetworkUtils;
 
 import java.util.ArrayList;
@@ -51,7 +52,7 @@ public class BakingTimeActivity extends AppCompatActivity implements AsyncTaskDe
             recuperaListaReceitas();
         }
 
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, numberOfColumns());
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, LayoutUtil.numberOfColumns(this));
         ReceitasAdapter mReceitasAdapter = new ReceitasAdapter(mBakingArrayList, this);
         mRecyclerViewReceitas.setLayoutManager(mLayoutManager);
         mRecyclerViewReceitas.setHasFixedSize(false);
@@ -60,16 +61,7 @@ public class BakingTimeActivity extends AppCompatActivity implements AsyncTaskDe
     }
 
 
-    private int numberOfColumns() {
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int widthDivider = 600;
-        int width = displayMetrics.widthPixels;
-        int nColumns = width / widthDivider;
-        Log.d(TAG, "nro colunas " + nColumns);
-        if (nColumns < 1) return 1;
-        return nColumns;
-    }
+
 
 
     private void recuperaListaReceitas() {
@@ -99,7 +91,7 @@ public class BakingTimeActivity extends AppCompatActivity implements AsyncTaskDe
 
         mBakingArrayList = (ArrayList<Baking>) output;
 
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, numberOfColumns());
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, LayoutUtil.numberOfColumns(this));
 
         ReceitasAdapter mReceitasAdapter = new ReceitasAdapter(mBakingArrayList, this);
         mRecyclerViewReceitas.setLayoutManager(mLayoutManager);
