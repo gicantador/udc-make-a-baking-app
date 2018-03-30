@@ -1,24 +1,15 @@
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/ll_listas_direita_detail"
         android:layout_width="300dp"
         android:layout_height="match_parent"
-
-        android:baselineAligned="false"
-        android:orientation="vertical">
-
-
-        <TextView
-            android:id="@+id/tv_baking_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/bt_save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent">
 
         <TextView
             android:id="@+id/lb_ingredientes"
@@ -28,18 +19,12 @@
             android:background="@color/cardview_light_background"
             android:text="@string/lb_ingredientes" />
 
-        <ScrollView
+
+        <FrameLayout
+            android:id="@+id/f_mock_ingredient"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:scrollbarFadeDuration="1">
-
-
-            <FrameLayout
-                android:id="@+id/f_mock_ingredient"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </ScrollView>
+            android:layout_height="250dp"
+            android:background="@color/colorCream" />
 
 
         <TextView
@@ -51,24 +36,23 @@
             android:text="@string/lb_steps" />
 
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:scrollbarFadeDuration="1">
-
-            <FrameLayout
-                android:id="@+id/f_mock_steps"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </ScrollView>
-
+        <FrameLayout
+            android:id="@+id/f_mock_steps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorBrown" />
 
     </LinearLayout>
 
+
     <FrameLayout
         android:id="@+id/f_tablet_mock_stepdetail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-         />
-</android.support.design.widget.CoordinatorLayout>
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="@color/cardview_light_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/ll_listas_direita_detail"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ll_listas_direita_detail" />
+
+</android.support.constraint.ConstraintLayout>

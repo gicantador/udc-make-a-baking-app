@@ -183,6 +183,7 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
         //    if (null != mStep.getVideoURL() && !mStep.getVideoURL().isEmpty()) {
         mPlayerView.setVisibility(View.VISIBLE);
         mPlayerView.setDefaultArtwork(placeholder);
+
         try {
             // Initialize the Media Session.
             initializeMediaSession();

@@ -22,7 +22,6 @@ import butterknife.ButterKnife;
 
 public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.IngredientViewHolder> {
 
-    private static final String TAG = IngredientAdapter.class.getSimpleName();
 
     private final List<Ingredient> mIngredientList;
 
@@ -34,7 +33,6 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
     @Override
     public IngredientViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 
-        //    Log.d(TAG, "onCreateViewHolder");
         Context context = viewGroup.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.adapter_ingredient, viewGroup, false);

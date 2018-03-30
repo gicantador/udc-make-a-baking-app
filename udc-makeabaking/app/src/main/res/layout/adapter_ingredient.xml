@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:paddingStart="3dp"
         android:paddingEnd="3dp"
+        style="@style/Texto"
         android:textAppearance="?attr/textAppearanceListItem" />
 
 
@@ -24,6 +25,7 @@
         android:id="@+id/tv_ingredient_measure"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        style="@style/Texto"
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <TextView
@@ -33,12 +35,14 @@
         android:paddingStart="3dp"
         android:paddingEnd="3dp"
         android:text="@string/lb_of"
+        style="@style/Texto"
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <TextView
         android:id="@+id/tv_ingredient_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        style="@style/Texto"
         android:textAppearance="?attr/textAppearanceListItem" />
 
 

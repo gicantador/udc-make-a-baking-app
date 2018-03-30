@@ -49,4 +49,29 @@ public class LayoutUtil {
         }
     }
 
+//    public static int larguraTelaComPorcentagem(Context context) {
+//
+//        Display display = context.getWindowManager().getDefaultDisplay();
+//        Point size = new Point();
+//        try {
+//            display.getRealSize(size);
+//        } catch (NoSuchMethodError err) {
+//            display.getSize(size);
+//        }
+//        int width = size.x;
+//        int height = size.y;
+//               LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams((int)(width/3),
+//                LinearLayout.LayoutParams.WRAP_CONTENT); // or set height to any fixed value you want
+//
+//        your_layout.setLayoutParams(lp);
+//// OR
+//        your_textView.setLayoutParams(lp);
+//
+//
+//        DisplayMetrics displayMetrics = new DisplayMetrics();
+//        displayMetrics = context.getResources().getDisplayMetrics();
+//        int width = displayMetrics.widthPixels;
+//
+//        return percentual * width / 100;
+//    }
 }

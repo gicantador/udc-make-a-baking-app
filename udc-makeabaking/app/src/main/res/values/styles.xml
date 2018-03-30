@@ -18,8 +18,16 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="Label">
+        <item name="android:textSize">20sp</item>
+        <item name="colorAccent">@color/colorCream</item>
+        <item name="android:color">@color/colorCream</item>
+        <item name="android:background">@color/colorBrown</item>
 
-        <item name="colorAccent">@color/colorAccent</item>
     </style>
+
+    <style name="Texto">
+        <item name="android:textSize">15sp</item>
+    </style>
+
 
 </resources>

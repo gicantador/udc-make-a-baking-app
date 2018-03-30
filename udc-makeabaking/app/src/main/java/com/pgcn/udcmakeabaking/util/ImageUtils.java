@@ -16,12 +16,6 @@ public class ImageUtils {
     private static final String TAG = ImageUtils.class.getSimpleName();
 
 
-    public static Bitmap getBlankkPlacehoder() {
-        Log.d(TAG, "getBlankkPlacehoder");
-        return Bitmap.createBitmap(10, 10, Bitmap.Config.RGB_565);
-
-    }
-
     /**
      * credits https://stackoverflow.com/questions/8992964/android-load-from-url-to-bitmap
      *
