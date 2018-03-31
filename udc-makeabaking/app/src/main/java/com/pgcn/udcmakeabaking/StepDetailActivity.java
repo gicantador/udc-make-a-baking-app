@@ -50,7 +50,6 @@ public class StepDetailActivity extends AppCompatActivity implements StepDetailF
 
         }
 
-        //  mStepList = montaOrdensLista(theSte22p);
         Log.d(TAG, "Lista de steps recebida " + mStepList.size());
         Log.d(TAG, "Step recebido " + mStep.toString());
 

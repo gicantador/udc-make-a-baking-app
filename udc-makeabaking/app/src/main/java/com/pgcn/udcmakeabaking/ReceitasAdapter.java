@@ -33,7 +33,7 @@ public class ReceitasAdapter extends RecyclerView.Adapter<ReceitasAdapter.Receit
     @Override
     public ReceitasViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 
-        Log.d(TAG, "onCreateViewHolder");
+     //   Log.d(TAG, "onCreateViewHolder");
         Context context = viewGroup.getContext();
         int layoutIdForListItem = R.layout.baking_item;
         LayoutInflater inflater = LayoutInflater.from(context);

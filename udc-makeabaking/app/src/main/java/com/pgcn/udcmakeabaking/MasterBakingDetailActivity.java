@@ -3,9 +3,11 @@ package com.pgcn.udcmakeabaking;
 
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -14,6 +16,7 @@ import android.view.MenuItem;
 import com.pgcn.udcmakeabaking.model.Baking;
 import com.pgcn.udcmakeabaking.model.Ingredient;
 import com.pgcn.udcmakeabaking.model.Step;
+import com.pgcn.udcmakeabaking.util.LayoutUtil;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import org.apache.commons.lang3.StringUtils;
@@ -22,12 +25,20 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class MasterBakingDetailActivity extends AppCompatActivity implements IngredientFragment.OnListFragmentInteractionListener, StepFragment.OnListFragmentInteractionListener {
+import butterknife.ButterKnife;
+
+public class MasterBakingDetailActivity extends AppCompatActivity implements
+        IngredientFragment.OnListFragmentInteractionListener,
+        StepFragment.OnSelectStepFragmentInteractionListener,
+        StepDetailFragment.OnFragmentInteractionListener {
 
     private static final String TAG = MasterBakingDetailActivity.class.getSimpleName();
     private ArrayList<Step> mStepList;
     private ArrayList<Ingredient> mIngredientList;
     private Baking mBaking;
+
+
+    private int mStepPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,40 +47,33 @@ public class MasterBakingDetailActivity extends AppCompatActivity implements Ing
         Log.d(TAG, "onCreate");
 
         setContentView(R.layout.activity_master_baking_detail);
+        ButterKnife.bind(this);
+        FragmentManager fragmentManager = getSupportFragmentManager();
 
-        Intent intentThatStartedThisActivity = getIntent();
+        carregaDados(savedInstanceState);
 
-        if (intentThatStartedThisActivity != null) {
-            Bundle bundle;
-            FragmentManager fragmentManager = getSupportFragmentManager();
-
-            if (intentThatStartedThisActivity.hasExtra(Baking.KEY_BAKING)) {
-                mBaking = intentThatStartedThisActivity.getParcelableExtra(Baking.KEY_BAKING);
-            }
-
-            if (intentThatStartedThisActivity.hasExtra(Step.KEY_STEP_LIST)) {
-                mStepList = intentThatStartedThisActivity
-                        .getParcelableArrayListExtra(Step.KEY_STEP_LIST);
-                bundle = new Bundle();
-                bundle.putParcelableArrayList(Step.KEY_STEP_LIST, mStepList);
-                StepFragment stepFragment = new StepFragment();
-                stepFragment.setArguments(bundle);
-                FragmentTransaction fts = fragmentManager.beginTransaction();
-                fts.add(R.id.f_mock_steps, stepFragment);
-                fts.commit();
-            }
-            if (intentThatStartedThisActivity.hasExtra(Ingredient.KEY_INGREDIENT_LIST)) {
-                mIngredientList = intentThatStartedThisActivity
-                        .getParcelableArrayListExtra(Ingredient.KEY_INGREDIENT_LIST);
-                IngredientFragment ingredientFragment = new IngredientFragment();
-                bundle = new Bundle();
-                bundle.putParcelableArrayList(Ingredient.KEY_INGREDIENT_LIST, mIngredientList);
-                ingredientFragment.setArguments(bundle);
-                FragmentTransaction ft = fragmentManager.beginTransaction();
-                ft.add(R.id.f_mock_ingredient, ingredientFragment);
-                ft.commit();
-            }
+        ActionBar ab = getSupportActionBar();
+        if (ab != null) {
+            ab.setTitle(mBaking.getName());
         }
+
+        Bundle bundle = new Bundle();
+
+        StepFragment stepFragment = new StepFragment();
+        bundle.putParcelableArrayList(Step.KEY_STEP_LIST, mStepList);
+        stepFragment.setArguments(bundle);
+        FragmentTransaction fts = fragmentManager.beginTransaction();
+        fts.add(R.id.f_mock_steps, stepFragment);
+        fts.commit();
+
+        bundle = new Bundle();
+
+        IngredientFragment ingredientFragment = new IngredientFragment();
+        bundle.putParcelableArrayList(Ingredient.KEY_INGREDIENT_LIST, mIngredientList);
+        ingredientFragment.setArguments(bundle);
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.add(R.id.f_mock_ingredient, ingredientFragment);
+        ft.commit();
         // Initialize the Prefs class
         new Prefs.Builder()
                 .setContext(this)
@@ -78,7 +82,38 @@ public class MasterBakingDetailActivity extends AppCompatActivity implements Ing
                 .setUseDefaultSharedPreference(true)
                 .build();
 
+
     }
+
+    private void carregaDados(Bundle savedInstanceState) {
+        if (null != savedInstanceState) {
+            mBaking = savedInstanceState.getParcelable(Baking.KEY_BAKING);
+            mStepList = savedInstanceState.getParcelableArrayList(Step.KEY_STEP_LIST);
+            mIngredientList = savedInstanceState.getParcelableArrayList(Ingredient.KEY_INGREDIENT_LIST);
+        } else {
+            Intent intentThatStartedThisActivity = getIntent();
+
+            if (intentThatStartedThisActivity != null) {
+
+                if (intentThatStartedThisActivity.hasExtra(Baking.KEY_BAKING)) {
+                    mBaking = intentThatStartedThisActivity.getParcelableExtra(Baking.KEY_BAKING);
+                }
+
+                if (intentThatStartedThisActivity.hasExtra(Step.KEY_STEP_LIST)) {
+                    mStepList = intentThatStartedThisActivity
+                            .getParcelableArrayListExtra(Step.KEY_STEP_LIST);
+
+                }
+                if (intentThatStartedThisActivity.hasExtra(Ingredient.KEY_INGREDIENT_LIST)) {
+                    mIngredientList = intentThatStartedThisActivity
+                            .getParcelableArrayListExtra(Ingredient.KEY_INGREDIENT_LIST);
+
+                }
+
+            }
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -93,22 +128,7 @@ public class MasterBakingDetailActivity extends AppCompatActivity implements Ing
         if (R.id.action_saveforwidget == id) {
             salvarNoPreferences();
         }
-        if (R.id.action_showPreferences == id) {
-            Log.d(TAG, "baking: " + Prefs.getString(Baking.KEY_BAKING_NAME, StringUtils.EMPTY));
-            Log.d(TAG, "baking image: " + Prefs.getString(Baking.KEY_BAKING_IMAGE, StringUtils.
-                    EMPTY));
 
-            Set<String> lista = Prefs.getOrderedStringSet(Ingredient.KEY_INGREDIENT_LIST,
-                    new TreeSet<String>());
-            if (lista != null) {
-                for (String ing : lista) {
-                    Log.d(TAG, "baking ingredientes: " + ing);
-
-                }
-            }
-
-
-        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -135,17 +155,76 @@ public class MasterBakingDetailActivity extends AppCompatActivity implements Ing
         Log.d(TAG, "onListFragmentInteraction ingrediente ");
     }
 
-    @Override
-    public void onListFragmentInteraction(Step step) {
-        Log.d(TAG, "onListFragmentInteraction step ");
-
-    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putParcelableArrayList(Step.KEY_STEP_LIST, mStepList);
         outState.putParcelableArrayList(Ingredient.KEY_INGREDIENT, mIngredientList);
+        outState.putParcelable(Baking.KEY_BAKING, mBaking);
         super.onSaveInstanceState(outState);
+    }
+
+
+    @Override
+    public void onSelectStep(Step step, int adapterPosition) {
+        if (LayoutUtil.isTablet(this)) {
+            montaFragmentStepDetail(step, adapterPosition);
+        } else {
+            Intent intent = new Intent(this, StepDetailActivity.class);
+            Bundle bundle = new Bundle();
+
+            bundle.putParcelable(Step.KEY_STEP, step);
+            bundle.putParcelableArrayList(Step.KEY_STEP_LIST, mStepList);
+            bundle.putInt(Step.KEY_STEP_POSITION, adapterPosition);
+
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }
+    }
+
+    void montaFragmentStepDetail(Step step, int position) {
+        Log.d(TAG, "montaFragmentStepDetail()");
+
+        Bundle bundle = new Bundle();
+        bundle.putInt(Step.KEY_STEP_LIST_SIZE, mStepList.size());
+        bundle.putInt(Step.KEY_STEP_POSITION, position);
+        bundle.putParcelable(Step.KEY_STEP, step);
+
+        StepDetailFragment stepDetailFragment = new StepDetailFragment();
+        stepDetailFragment.setArguments(bundle);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        FragmentTransaction fts = fragmentManager.beginTransaction();
+        fts.replace(R.id.f_tablet_mock_stepdetail, stepDetailFragment);
+
+        fts.commit();
+
+    }
+
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+        Log.d(TAG, " onFragmentInteraction(Uri uri)()" + uri);
+    }
+
+    @Override
+    public void onFragmentInteraction(int position) {
+        Log.d(TAG, "onFragmentInteraction(int position()" + position);
+        Step stepToShow = null;
+
+        if (position > (-1) && position < mStepList.size()) {
+            stepToShow = mStepList.get(position);
+            mStepPosition = position;
+        }
+
+        if (stepToShow != null) {
+            montaFragmentStepDetail(stepToShow, position);
+        }
+    }
+
+    @Override
+    public void onFragmentInteraction(Step step) {
+        Log.d(TAG, "onFragmentInteraction(Step step)()" + step);
     }
 
 

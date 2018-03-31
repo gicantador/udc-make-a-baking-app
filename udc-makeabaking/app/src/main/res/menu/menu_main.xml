@@ -16,9 +16,5 @@
         app:showAsAction="ifRoom" />
 
 
-    <item
-        android:id="@+id/action_showPreferences"
-        android:orderInCategory="300"
-        android:title="@string/desc_swap_button"
-        app:showAsAction="ifRoom" />
+
 </menu>

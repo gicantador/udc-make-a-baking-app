@@ -46,4 +46,15 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation 'com.pixplicity.easyprefs:library:1.9.0'
 
+
+    compile 'nz.bradcampbell:paperparcel:2.0.5'
+    annotationProcessor 'nz.bradcampbell:paperparcel-compiler:2.0.5'
+
+    // Retrofit
+    compile 'com.squareup.retrofit2:retrofit:2.4.0'
+
+// JSON Parsing
+
+    compile 'com.squareup.retrofit2:converter-gson:2.4.0'
+
 }

@@ -2,11 +2,13 @@ package com.pgcn.udcmakeabaking.util;
 
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
@@ -17,7 +19,7 @@ import java.util.Scanner;
 public class NetworkUtils {
     private static final String TAG = NetworkUtils.class.getSimpleName();
 
-    private static final String RECIPE_JSON_ROOT = "http://go.udacity.com/android-baking-app-json";
+    private static final String RECIPE_JSON_ROOT = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
     private final static int timeout = 20000; // 20 sec
 
 
@@ -28,8 +30,19 @@ public class NetworkUtils {
      * @throws IOException
      */
     public static String getResponseFromHttpUrl() throws IOException {
-        URL url = new URL(RECIPE_JSON_ROOT);
+
+        Uri builtUri = Uri.parse(RECIPE_JSON_ROOT).buildUpon()
+                .build();
+        URL url = null;
+        try {
+            url = new URL(builtUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+
         final String DELIMITER_PATTERN = "\\A";
+
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         try {
             urlConnection.setConnectTimeout(timeout);
@@ -48,6 +61,8 @@ public class NetworkUtils {
         } finally {
             urlConnection.disconnect();
         }
+
+
     }
 
     /**

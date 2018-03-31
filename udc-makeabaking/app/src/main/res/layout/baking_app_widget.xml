@@ -2,7 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:orientation="vertical">
 
     <TextView
@@ -20,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="3dp"
-        android:textSize="12sp"
+        android:textSize="12sp" android:background="@color/cardview_light_background"
         tools:ignore="RtlSymmetry" />
 
 

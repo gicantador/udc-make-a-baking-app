@@ -36,7 +36,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
 
     @Override
     public StepViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        Log.d(TAG, "onCreateViewHolder");
+      //  Log.d(TAG, "onCreateViewHolder");
         Context context = viewGroup.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.adapter_steps_short, viewGroup, false);

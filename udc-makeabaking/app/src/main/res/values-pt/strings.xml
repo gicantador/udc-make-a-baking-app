@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Make A Baking</string>
     <string name="action_settings">Configuração</string>
     <string name="img_desc_baking_photo">Foto da receita</string>
     <string name="lb_ingredientes">Ingredientes</string>
